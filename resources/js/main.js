@@ -7,8 +7,7 @@ import Vuex from 'vuex'
 import VueRouter from 'vue-router'
 import App from './components/App'
 
-
-// Globally register all
+// Automatic Global Component Regsitration
 import './components/_globals'
 
 // Package initialisation
@@ -25,8 +24,12 @@ const router = new VueRouter({
   routes
 });
 
-// Vuex
+// Vuex - rootStore is global plugin for "store.js".
+// It allows "store.js" attributes to be accesed globally.
+
 import { store } from './store/store'
+import rootStore from './rootStore'
+Vue.use(rootStore)
 
 // Apollo Setup
 const apolloClient = new ApolloClient({ uri: 'https://api.graphcms.com/simple/v1/awesomeTalksClone'})
@@ -34,8 +37,8 @@ const apolloProvider = new VueApollo({defaultClient: apolloClient})
 
 // Initialisation of Vue, Vue-Router, Vuex, Vue-Apollo
 const app = new Vue({
+    store,  
     el: '#app',
-    store,
     router,
     apolloProvider,
     components: {App}

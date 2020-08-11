@@ -1,30 +1,25 @@
 <template>
 <div>
   <p>This is the homepage</p>
-  <p>Count = {{this.$store.count}}</p>
+  <p>Count = {{ count }}</p>
   <button @click="increase">+</button>
 </div>
 </template>
 
 <script>
-  export default {
-    name: 'Home',
+//import store from '../store/store'
 
-    methods: {
-      increase(count) {
-        this.$store.commit('increase', count)
-      },
-      decrease() {
-        store.commit('decrease', count)
-      }
-    },
+export default {
+  computed: {
+    count () {
+      return this.$rootStore.state.count
+    }
+  },
 
-    computed: {
-      counter () {
-        return store.state.count
-      }
-    },
-
+  methods: {
+    increase () {
+      this.$rootStore.commit('increase')
+    }
   }
-
+}
 </script>

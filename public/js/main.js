@@ -7500,19 +7500,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//import store from '../store/store'
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'Home',
-  methods: {
-    increase: function increase(count) {
-      this.$store.commit('increase', count);
-    },
-    decrease: function decrease() {
-      store.commit('decrease', count);
+  computed: {
+    count: function count() {
+      return this.$rootStore.state.count;
     }
   },
-  computed: {
-    counter: function counter() {
-      return store.state.count;
+  methods: {
+    increase: function increase() {
+      this.$rootStore.commit('increase');
     }
   }
 });
@@ -52810,7 +52807,7 @@ var render = function() {
   return _c("div", [
     _c("p", [_vm._v("This is the homepage")]),
     _vm._v(" "),
-    _c("p", [_vm._v("Count = " + _vm._s(this.$store.count))]),
+    _c("p", [_vm._v("Count = " + _vm._s(_vm.count))]),
     _vm._v(" "),
     _c("button", { on: { click: _vm.increase } }, [_vm._v("+")])
   ])
@@ -70578,14 +70575,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!******************************************!*\
   !*** ./resources/js/components/Home.vue ***!
   \******************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Home_vue_vue_type_template_id_f2b6376c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Home.vue?vue&type=template&id=f2b6376c& */ "./resources/js/components/Home.vue?vue&type=template&id=f2b6376c&");
 /* harmony import */ var _Home_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Home.vue?vue&type=script&lang=js& */ "./resources/js/components/Home.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _Home_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _Home_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -70615,7 +70613,7 @@ component.options.__file = "resources/js/components/Home.vue"
 /*!*******************************************************************!*\
   !*** ./resources/js/components/Home.vue?vue&type=script&lang=js& ***!
   \*******************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -71004,6 +71002,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_globals__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/_globals */ "./resources/js/components/_globals.js");
 /* harmony import */ var _router_routes__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./router/routes */ "./resources/js/router/routes.js");
 /* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./store/store */ "./resources/js/store/store.js");
+/* harmony import */ var _rootStore__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./rootStore */ "./resources/js/rootStore.js");
 // Pull & Config NPM installed Packages
 
 
@@ -71011,7 +71010,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
- // Globally register all
+ // Automatic Global Component Regsitration
 
  // Package initialisation
 
@@ -71027,9 +71026,12 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_5__["default"]({
   mode: 'history',
   routes: _router_routes__WEBPACK_IMPORTED_MODULE_8__["routes"]
-}); // Vuex
+}); // Vuex - rootStore is global plugin for "store.js".
+// It allows "store.js" attributes to be accesed globally.
 
- // Apollo Setup
+
+
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(_rootStore__WEBPACK_IMPORTED_MODULE_10__["default"]); // Apollo Setup
 
 var apolloClient = new apollo_boost__WEBPACK_IMPORTED_MODULE_2__["default"]({
   uri: 'https://api.graphcms.com/simple/v1/awesomeTalksClone'
@@ -71039,12 +71041,32 @@ var apolloProvider = new vue_apollo__WEBPACK_IMPORTED_MODULE_3__["default"]({
 }); // Initialisation of Vue, Vue-Router, Vuex, Vue-Apollo
 
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
-  el: '#app',
   store: _store_store__WEBPACK_IMPORTED_MODULE_9__["store"],
+  el: '#app',
   router: router,
   apolloProvider: apolloProvider,
   components: {
     App: _components_App__WEBPACK_IMPORTED_MODULE_6__["default"]
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/rootStore.js":
+/*!***********************************!*\
+  !*** ./resources/js/rootStore.js ***!
+  \***********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./store/store */ "./resources/js/store/store.js");
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  store: _store_store__WEBPACK_IMPORTED_MODULE_0__["default"],
+  install: function install(Vue, options) {
+    Vue.prototype.$rootStore = _store_store__WEBPACK_IMPORTED_MODULE_0__["default"];
   }
 });
 
@@ -71107,36 +71129,27 @@ var routes = [{
 /*!*************************************!*\
   !*** ./resources/js/store/store.js ***!
   \*************************************/
-/*! exports provided: store */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
-var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
+/* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
     count: 0
   },
   mutations: {
-    increase: function increase(state, count) {
-      state.count = count++;
-    },
-    decrease: function decrease(state, count) {
-      state.count = count--;
-    }
-  },
-  getters: {
-    count: function count(state) {
-      return state.count;
+    increase: function increase(state) {
+      state.count++;
     }
   }
-});
+}));
 
 /***/ }),
 
